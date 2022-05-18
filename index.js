@@ -191,6 +191,7 @@ async function run() {
             res.send({ success: true, result });
         });
 
+        //get all doctors
         app.get('/doctor', verifyJWT, verifyAdmin, async(req, res) =>{
             const doctors = await doctorCollection.find().toArray();
             res.send(doctors);
