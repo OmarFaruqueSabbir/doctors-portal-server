@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 //middleware
@@ -178,6 +178,16 @@ async function run() {
                 return res.status(403).send({ message: "access is denied" });
             }
         })
+
+        app.get('/bookings/:id', verifyJWT, async (req, res) => {
+          const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const booking = await bookingCollection.findOne(query);
+            res.send(bookings)
+
+        })
+
+
 
 
         app.post('/bookings', async (req, res) => {
